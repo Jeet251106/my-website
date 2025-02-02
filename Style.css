@@ -10,7 +10,7 @@ body {
 /* For Mobile */
 @media (max-width: 768px) {
     body {
-        background-image: url('mobileview.gif'); /* Set your mobile background GIF */
+        background-image: url("mobileview..gif"); /* Set your mobile background GIF */
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
