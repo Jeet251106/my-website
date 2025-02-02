@@ -1,6 +1,6 @@
 /* For Desktop */
 body {
-    background-image: url("loficafe.gif");
+    background-image: url("loficafe.gif"); /* Set your desktop background image */
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -10,22 +10,17 @@ body {
 /* For Mobile */
 @media (max-width: 768px) {
     body {
-        /* Background video for mobile */
-        background: none;  /* Remove the previous background image */
-    }
-
-    /* Video as background for mobile */
-    .video-background {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: -1; /* Send the video behind other content */
+        background-image: url('mobileview.gif'); /* Set your mobile background GIF */
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
     }
 }
-
+h1
+{
+    color: white;
+}
 pre {
     color: white;
     font-size: 20px;
