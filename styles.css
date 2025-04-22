@@ -1,0 +1,99 @@
+/* 🌈 Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #f4f4f4;
+    color: #333;
+}
+
+/* 📄 Container */
+.container {
+    width: 80%;
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 10px #ccc;
+}
+
+/* 🛠️ Header */
+h1 {
+    text-align: center;
+    font-size: 28px;
+}
+
+/* 🎯 Mode Selector */
+.mode-selector, .challenge-section, .todo-section {
+    margin-bottom: 30px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+}
+
+select, input {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    width: calc(100% - 22px);
+    margin-bottom: 10px;
+}
+
+/* 🕒 Timer Section */
+.timer-display {
+    text-align: center;
+    font-size: 48px;
+    margin: 20px 0;
+}
+
+.controls {
+    text-align: center;
+    margin: 20px 0;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background: #007BFF;
+    color: #fff;
+    border: 1px solid #0056b3;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 5px;
+}
+
+button:hover {
+    background: #0056b3;
+}
+
+/* 📝 To-Do List */
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #f0f0f0;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li:last-child {
+    border-bottom: none;
+}
+
+.done-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.done-btn:hover {
+    background: #218838;
+}

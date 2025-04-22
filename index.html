@@ -3,24 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focuswithme</title>
-    <link rel="stylesheet" href="stylesheet.css">
+    <title>Productivity Website</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    
-    <p id="tittle">Focuswithme.io</p>  
-    
-    <!-- Pomodoro Timer -->
-    <button id="baby_time">
-        Baby Time
-        <sub>10m 5m 10m</sub>
-    </button>
 
-    <!-- Login & Logout Buttons -->
-    <button id="login" onclick="toggleAuth()">Login</button>
-    <button id="logout" onclick="toggleAuth()" style="display: none;">Logout</button>
+<div class="container">
 
-    <script src="javascript.js"></script>
+    <!-- Header -->
+    <h1>Pomodoro Productivity Website</h1>
 
+    <!-- Timer Section -->
+    <div class="timer-section">
+        <h2>Pomodoro Timer</h2>
+
+        <div class="mode-selector">
+            <label for="timer-mode">Mode:</label>
+            <select id="timer-mode" onchange="changeMode()">
+                <option value="easy">Easy (10 min / 5 min)</option>
+                <option value="normal" selected>Normal (20 min / 5 min)</option>
+                <option value="advanced">Advanced (30 min / 10 min)</option>
+                <option value="extreme">Extreme (60 min / 15 min)</option>
+            </select>
+        </div>
+
+        <div class="timer-display">
+            <p id="timer">20:00</p>
+        </div>
+
+        <div class="controls">
+            <button id="start">Start</button>
+            <button id="pause">Pause</button>
+            <button id="reset">Reset</button>
+        </div>
+    </div>
+
+    <!-- Self-Challenge Section -->
+    <div class="challenge-section">
+        <h2>Challenge Yourself</h2>
+        <label for="challenge-type">Challenge Type:</label>
+        <select id="challenge-type">
+            <option value="cycles">Pomodoro Cycles</option>
+            <option value="hours">Hours</option>
+        </select>
+        <input type="number" id="challenge-goal" min="1" placeholder="Enter goal">
+        <button onclick="startChallenge()">Start Challenge</button>
+        <p id="challenge-progress">Progress: 0 / 0</p>
+    </div>
+
+    <!-- To-Do List Section -->
+    <div class="todo-section">
+        <h2>To-Do List</h2>
+
+        <div class="todo-controls">
+            <input type="text" id="todo-input" placeholder="Add a task...">
+            <button onclick="addTask()">Add</button>
+        </div>
+
+        <ul id="todo-list"></ul>
+    </div>
+
+</div>
+
+<script src="script.js"></script>
+<script src="todo.js"></script>
 </body>
 </html>
