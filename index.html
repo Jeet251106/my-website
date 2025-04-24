@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Pomodoro Timer</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import {
@@ -16,19 +14,22 @@
       onAuthStateChanged
     } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
+    // Your Firebase Config
     const firebaseConfig = {
       apiKey: "AIzaSyB7jf2EEt78PfwRo-GG5wiw_lddKQWZnDw",
       authDomain: "databaseorwot.firebaseapp.com",
       databaseURL: "https://databaseorwot-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "databaseorwot",
-      storageBucket: "databaseorwot.firebasestorage.app",
+      storageBucket: "databaseorwot.appspot.com",
       messagingSenderId: "669163374689",
       appId: "1:669163374689:web:ede81234a6a8b675d5c220"
     };
 
+    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
+    // Sign Up Function
     window.signup = async () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
@@ -39,6 +40,7 @@
       }
     };
 
+    // Login Function
     window.login = async () => {
       const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
@@ -49,10 +51,12 @@
       }
     };
 
+    // Logout Function
     window.logout = async () => {
       await signOut(auth);
     };
 
+    // Authentication State Change Listener
     onAuthStateChanged(auth, (user) => {
       const status = document.getElementById('authStatus');
       const authInputs = document.getElementById('authInputs');
@@ -77,44 +81,34 @@
   </script>
 </head>
 
-<body
-  class="relative text-white min-h-screen bg-cover bg-center bg-no-repeat text-sm"
-  style="background-image: url('https://i.pinimg.com/originals/d8/55/ad/d855ad574a63b786b26c8229365c506e.gif');"
->
-  <!-- Dark overlay for readability -->
+<body class="relative text-white min-h-screen bg-cover bg-center bg-no-repeat text-sm" style="background-image: url('https://i.pinimg.com/originals/d8/55/ad/d855ad574a63b786b26c8229365c506e.gif');">
   <div class="absolute inset-0 bg-black bg-opacity-60 z-0"></div>
 
-  <!-- Content -->
   <div class="relative z-10 flex flex-col items-center justify-center space-y-4 p-3">
-
     <!-- Auth Section -->
     <div class="space-y-1 text-center">
       <h2 class="text-xl font-bold">🔐 Firebase Auth</h2>
-
       <div id="authInputs" class="space-y-1">
-        <input type="email" id="email" placeholder="Email" class="p-1.5 rounded text-black w-full max-w-sm text-sm">
-        <input type="password" id="password" placeholder="Password" class="p-1.5 rounded text-black w-full max-w-sm text-sm">
+        <input type="email" id="email" placeholder="Email" class="p-1.5 rounded text-black w-full max-w-sm text-sm" />
+        <input type="password" id="password" placeholder="Password" class="p-1.5 rounded text-black w-full max-w-sm text-sm" />
       </div>
-
       <div id="authButtons" class="space-x-2 mt-1">
         <button onclick="signup()" class="bg-blue-600 px-3 py-1.5 rounded text-sm">Sign Up</button>
         <button onclick="login()" class="bg-green-600 px-3 py-1.5 rounded text-sm">Log In</button>
       </div>
-
       <button onclick="logout()" id="logoutBtn" class="bg-red-600 px-3 py-1.5 rounded text-sm hidden mt-1">Log Out</button>
       <p id="authStatus" class="text-xs text-yellow-300 mt-1"></p>
     </div>
 
     <!-- Main App Section -->
-    <div id="appSection" class="hidden flex flex-col items-center space-y-4 w-full max-w-xl">
-
+    <div id="appSection" class="hidden flex flex-col items-center space-y-6 w-full max-w-xl">
       <h1 class="text-2xl font-bold">Pomodoro Timer</h1>
 
       <!-- Timer -->
       <div class="text-center space-y-3">
         <div id="timer" class="text-5xl font-mono">25:00</div>
         <div class="space-x-1.5">
-          <button onclick="setTime(25)" class="bg-blue-600 px-2.5 py-1 rounded text-sm">Pomodoro</button>
+          <button onclick="setTime(25)" class="bg-blue-600 px-2.5 py-1 rounded text-sm">pomodoro timer</button>
           <button onclick="setTime(5)" class="bg-green-600 px-2.5 py-1 rounded text-sm">Short Break</button>
           <button onclick="setTime(15)" class="bg-yellow-600 px-2.5 py-1 rounded text-sm">Long Break</button>
         </div>
@@ -124,16 +118,20 @@
         </div>
       </div>
 
+
       <!-- Challenge -->
-      <div class="mt-6 w-full max-w-sm">
+      <div class="w-full max-w-sm">
         <h2 class="text-lg font-semibold mb-1">🎯 Challenge</h2>
         <input type="number" id="challengeCount" placeholder="Pomodoro count (e.g. 4)" class="w-full p-1.5 rounded text-black text-sm">
-        <button onclick="startChallenge()" class="mt-2 bg-purple-600 px-3 py-2 rounded w-full text-sm">Start Challenge</button>
+        <div class="flex gap-2 mt-2">
+          <button onclick="startChallenge()" id="startChallengeBtn" class="bg-purple-600 px-3 py-1.5 rounded text-sm w-full">Start Challenge</button>
+          <button onclick="giveUpChallenge()" id="giveUpBtn" class="bg-red-700 px-3 py-1.5 rounded text-sm w-full hidden">Give Up</button>
+        </div>
         <p id="challengeStatus" class="mt-1 text-green-300 text-xs"></p>
       </div>
 
       <!-- To-Do List -->
-      <div class="mt-6 w-full max-w-sm">
+      <div class="w-full max-w-sm">
         <h2 class="text-lg font-semibold mb-1">📝 To-Do List</h2>
         <div class="flex gap-2">
           <input id="todoInput" class="flex-1 p-1.5 rounded text-black text-sm" placeholder="Add a task">
@@ -142,22 +140,17 @@
         <ul id="todoList" class="mt-3 space-y-2 text-sm"></ul>
       </div>
 
-      <!-- Spotify Embed -->
-      <iframe style="border-radius:12px"
-      src="https://open.spotify.com/embed/playlist/4Zjli1P13J5mmSCD5iKAXK?utm_source=generator"
-      width="340"
-      height="80"
-      frameBorder="0"
-      allowfullscreen=""
-      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-      loading="lazy">
-    </iframe>
-        </div>
-
+      <!-- Music -->
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4Zjli1P13J5mmSCD5iKAXK?utm_source=generator" width="340" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+    
     <!-- Scripts -->
     <script src="pomodoro.js"></script>
     <script src="todo.js"></script>
     <script src="challenge.js"></script>
+    <script src="login.js"></script>
+    
+
   </div>
 </body>
 </html>
