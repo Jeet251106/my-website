@@ -17,7 +17,7 @@
     } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
+      apiKey: "AIzaSyB7jf2EEt78PfwRo-GG5wiw_lddKQWZnDw",
       authDomain: "databaseorwot.firebaseapp.com",
       databaseURL: "https://databaseorwot-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "databaseorwot",
@@ -54,17 +54,20 @@
     };
 
     onAuthStateChanged(auth, (user) => {
+      const status = document.getElementById('authStatus');
       const authInputs = document.getElementById('authInputs');
       const authButtons = document.getElementById('authButtons');
       const logoutBtn = document.getElementById('logoutBtn');
       const appSection = document.getElementById('appSection');
 
       if (user) {
+        status.textContent = `Logged in as ${user.email}`;
         authInputs.classList.add('hidden');
         authButtons.classList.add('hidden');
         logoutBtn.classList.remove('hidden');
         appSection.classList.remove('hidden');
       } else {
+        status.textContent = 'Not logged in';
         authInputs.classList.remove('hidden');
         authButtons.classList.remove('hidden');
         logoutBtn.classList.add('hidden');
@@ -74,122 +77,86 @@
   </script>
 </head>
 
-<body class="relative text-white min-h-screen bg-cover bg-center bg-no-repeat text-sm"
-  style="background-image: url('https://i.pinimg.com/originals/d8/55/ad/d855ad574a63b786b26c8229365c506e.gif');">
-  <!-- Dark overlay -->
+<body
+  class="relative text-white min-h-screen bg-cover bg-center bg-no-repeat text-sm"
+  style="background-image: url('https://i.pinimg.com/originals/d8/55/ad/d855ad574a63b786b26c8229365c506e.gif');"
+>
+  <!-- Dark overlay for readability -->
   <div class="absolute inset-0 bg-black bg-opacity-60 z-0"></div>
 
-  <!-- Logout Button -->
-  <div class="absolute top-4 right-4 z-10 hidden" id="logoutBtn">
-    <button onclick="logout()" class="bg-red-600 px-4 py-2 rounded text-sm">Log Out</button>
-  </div>
-
   <!-- Content -->
-  <div class="relative z-10 flex flex-col items-center justify-start space-y-6 p-6">
-
-    <!-- Header -->
-    <h1 class="text-3xl font-bold mt-4">Pomodoro Timer</h1>
+  <div class="relative z-10 flex flex-col items-center justify-center space-y-4 p-3">
 
     <!-- Auth Section -->
-    <div id="authInputs" class="space-y-2 text-center">
-      <input type="email" id="email" placeholder="Email" class="p-2 rounded text-black w-full max-w-sm text-sm">
-      <input type="password" id="password" placeholder="Password" class="p-2 rounded text-black w-full max-w-sm text-sm">
+    <div class="space-y-1 text-center">
+      <h2 class="text-xl font-bold">🔐 Firebase Auth</h2>
 
-      <div id="authButtons" class="space-x-2">
-        <button onclick="signup()" class="bg-blue-600 px-4 py-2 rounded text-sm">Sign Up</button>
-        <button onclick="login()" class="bg-green-600 px-4 py-2 rounded text-sm">Log In</button>
+      <div id="authInputs" class="space-y-1">
+        <input type="email" id="email" placeholder="Email" class="p-1.5 rounded text-black w-full max-w-sm text-sm">
+        <input type="password" id="password" placeholder="Password" class="p-1.5 rounded text-black w-full max-w-sm text-sm">
       </div>
+
+      <div id="authButtons" class="space-x-2 mt-1">
+        <button onclick="signup()" class="bg-blue-600 px-3 py-1.5 rounded text-sm">Sign Up</button>
+        <button onclick="login()" class="bg-green-600 px-3 py-1.5 rounded text-sm">Log In</button>
+      </div>
+
+      <button onclick="logout()" id="logoutBtn" class="bg-red-600 px-3 py-1.5 rounded text-sm hidden mt-1">Log Out</button>
+      <p id="authStatus" class="text-xs text-yellow-300 mt-1"></p>
     </div>
 
     <!-- Main App Section -->
-    <div id="appSection" class="hidden flex flex-col items-center space-y-6 w-full max-w-xl">
+    <div id="appSection" class="hidden flex flex-col items-center space-y-4 w-full max-w-xl">
+
+      <h1 class="text-2xl font-bold">Pomodoro Timer</h1>
 
       <!-- Timer -->
       <div class="text-center space-y-3">
         <div id="timer" class="text-5xl font-mono">25:00</div>
-        <div class="space-x-2">
-          <button onclick="setTime(25)" class="bg-blue-600 px-3 py-1 rounded text-sm">Pomodoro</button>
-          <button onclick="setTime(5)" class="bg-green-600 px-3 py-1 rounded text-sm">Short Break</button>
-          <button onclick="setTime(15)" class="bg-yellow-600 px-3 py-1 rounded text-sm">Long Break</button>
+        <div class="space-x-1.5">
+          <button onclick="setTime(25)" class="bg-blue-600 px-2.5 py-1 rounded text-sm">Pomodoro</button>
+          <button onclick="setTime(5)" class="bg-green-600 px-2.5 py-1 rounded text-sm">Short Break</button>
+          <button onclick="setTime(15)" class="bg-yellow-600 px-2.5 py-1 rounded text-sm">Long Break</button>
         </div>
         <div class="space-x-2">
-          <button id="start" class="bg-teal-500 px-4 py-2 rounded text-sm">Start</button>
-          <button id="reset" class="bg-gray-500 px-4 py-2 rounded text-sm">Reset</button>
+          <button id="start" class="bg-teal-500 px-3 py-1.5 rounded text-sm">Start</button>
+          <button id="reset" class="bg-gray-500 px-3 py-1.5 rounded text-sm">Reset</button>
         </div>
       </div>
 
       <!-- Challenge -->
-      <div class="w-full max-w-sm">
+      <div class="mt-6 w-full max-w-sm">
         <h2 class="text-lg font-semibold mb-1">🎯 Challenge</h2>
-        <input type="number" id="challengeCount" placeholder="Pomodoro count (e.g. 4)" class="w-full p-2 rounded text-black text-sm">
-        <button onclick="startChallenge()" class="mt-2 bg-purple-600 px-4 py-2 rounded w-full text-sm">Start Challenge</button>
+        <input type="number" id="challengeCount" placeholder="Pomodoro count (e.g. 4)" class="w-full p-1.5 rounded text-black text-sm">
+        <button onclick="startChallenge()" class="mt-2 bg-purple-600 px-3 py-2 rounded w-full text-sm">Start Challenge</button>
         <p id="challengeStatus" class="mt-1 text-green-300 text-xs"></p>
       </div>
 
       <!-- To-Do List -->
-      <div class="w-full max-w-sm">
+      <div class="mt-6 w-full max-w-sm">
         <h2 class="text-lg font-semibold mb-1">📝 To-Do List</h2>
-        <div class="flex gap-2 mb-2">
-          <input id="todoInput" class="flex-1 p-2 rounded text-black text-sm" placeholder="Add a task">
-          <select id="prioritySelect" class="text-black rounded text-sm p-2">
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-          <button onclick="addTodo()" class="bg-indigo-500 px-4 py-2 rounded text-sm">Add</button>
+        <div class="flex gap-2">
+          <input id="todoInput" class="flex-1 p-1.5 rounded text-black text-sm" placeholder="Add a task">
+          <button onclick="addTodo()" class="bg-indigo-500 px-3 py-1.5 rounded text-sm">Add</button>
         </div>
-        <ul id="todoList" class="space-y-2 text-sm"></ul>
+        <ul id="todoList" class="mt-3 space-y-2 text-sm"></ul>
       </div>
 
       <!-- Spotify Embed -->
       <iframe style="border-radius:12px"
-        src="https://open.spotify.com/embed/playlist/4Zjli1P13J5mmSCD5iKAXK?utm_source=generator"
-        width="340" height="80" frameBorder="0"
-        allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"></iframe>
-    </div>
+      src="https://open.spotify.com/embed/playlist/4Zjli1P13J5mmSCD5iKAXK?utm_source=generator"
+      width="340"
+      height="80"
+      frameBorder="0"
+      allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+      loading="lazy">
+    </iframe>
+        </div>
 
     <!-- Scripts -->
-    <script>
-      function setTime(minutes) {
-        const timer = document.getElementById('timer');
-        timer.textContent = `${String(minutes).padStart(2, '0')}:00`;
-      }
-
-      function addTodo() {
-        const input = document.getElementById('todoInput');
-        const prioritySelect = document.getElementById('prioritySelect');
-        const task = input.value.trim();
-        const priority = prioritySelect.value;
-
-        if (!task) return;
-
-        const li = document.createElement('li');
-        li.className = `flex justify-between items-center bg-white text-black p-2 rounded border-l-4 ${
-          priority === 'High' ? 'border-red-600' : priority === 'Medium' ? 'border-yellow-500' : 'border-green-500'
-        }`;
-
-        const span = document.createElement('span');
-        span.innerText = `${task} (${priority})`;
-
-        const doneBtn = document.createElement('button');
-        doneBtn.innerText = 'Done';
-        doneBtn.className = 'text-green-600 font-semibold ml-4';
-        doneBtn.onclick = () => {
-          li.classList.add('line-through', 'opacity-60');
-          doneBtn.disabled = true;
-        };
-
-        li.appendChild(span);
-        li.appendChild(doneBtn);
-        document.getElementById('todoList').appendChild(li);
-
-        input.value = '';
-        prioritySelect.value = 'Low';
-      }
-    </script>
-
     <script src="pomodoro.js"></script>
+    <script src="todo.js"></script>
     <script src="challenge.js"></script>
   </div>
 </body>
