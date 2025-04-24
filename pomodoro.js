@@ -1,41 +1,121 @@
 let timer;
-let time = 1500;
-let isRunning = false;
-let pomodoroDone = 0;
+let secondsLeft = 25 * 60; // 25 minutes in seconds
+let isChallengeActive = false;
+let pomodorosCompleted = 0;
+let challengeGoal = 0; // This will hold the number of Pomodoros required for the challenge
+let isTimerRunning = false;
+
+// Create an audio element for the alarm sound
+const alarmSound = new Audio('alarm.mp3'); 
+
+// Timer Setup
+function setTime(minutes) {
+  clearInterval(timer);
+  secondsLeft = minutes * 60;
+  updateTimerDisplay();
+}
 
 function updateTimerDisplay() {
-  const min = String(Math.floor(time / 60)).padStart(2, '0');
-  const sec = String(time % 60).padStart(2, '0');
-  document.getElementById('timer').innerText = `${min}:${sec}`;
+  const minutes = Math.floor(secondsLeft / 60);
+  const seconds = secondsLeft % 60;
+  document.getElementById("timer").textContent =
+    `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 }
 
-function setTime(mins) {
+// Start/Stop Timer
+document.getElementById("start").addEventListener("click", () => {
+  if (isTimerRunning) {
+    clearInterval(timer);
+    document.getElementById("start").textContent = "Start";
+  } else {
+    timer = setInterval(() => {
+      if (secondsLeft > 0) {
+        secondsLeft--;
+        updateTimerDisplay();
+      } else {
+        clearInterval(timer);
+        alarmSound.play();
+        alert("⏰ Time's up!");
+
+        if (isChallengeActive) {
+          pomodorosCompleted++;
+          if (pomodorosCompleted >= challengeGoal) {
+            alert("🎯 Challenge Completed!");
+            giveUpChallenge(); // End challenge if goal is reached
+          }
+        }
+      }
+    }, 1000);
+    document.getElementById("start").textContent = "Pause";
+  }
+  isTimerRunning = !isTimerRunning;
+});
+
+// Reset Timer
+document.getElementById("reset").addEventListener("click", () => {
   clearInterval(timer);
-  isRunning = false;
-  time = mins * 60;
+  secondsLeft = 25 * 60; // Reset to 25 minutes
   updateTimerDisplay();
+  isTimerRunning = false;
+  document.getElementById("start").textContent = "Start";
+});
+
+// Challenge Setup
+function startChallenge() {
+  const challengeCount = document.getElementById("challengeCount").value;
+  if (challengeCount && !isNaN(challengeCount) && challengeCount > 0) {
+    challengeGoal = parseInt(challengeCount);
+    pomodorosCompleted = 0;
+    isChallengeActive = true;
+    document.getElementById("challengeStatus").textContent = `Challenge started! Complete ${challengeGoal} Pomodoros!`;
+    document.getElementById("giveUpBtn").classList.remove("hidden");
+    document.getElementById("startChallengeBtn").classList.add("hidden");
+  } else {
+    alert("Please enter a valid number of Pomodoros for the challenge.");
+  }
 }
 
-document.getElementById('start').onclick = () => {
-  if (isRunning) return;
-  isRunning = true;
-  timer = setInterval(() => {
-    time--;
-    updateTimerDisplay();
-    if (time <= 0) {
-      clearInterval(timer);
-      isRunning = false;
-      pomodoroDone++;
-      checkChallenge();
-      alert('Time’s up!');
-    }
-  }, 1000);
-};
+// Give up Challenge
+function giveUpChallenge() {
+  isChallengeActive = false;
+  challengeGoal = 0;
+  pomodorosCompleted = 0;
+  document.getElementById("challengeStatus").textContent = "Challenge failed or canceled.";
+  document.getElementById("startChallengeBtn").classList.remove("hidden");
+  document.getElementById("giveUpBtn").classList.add("hidden");
+}
 
-document.getElementById('reset').onclick = () => {
-  clearInterval(timer);
-  isRunning = false;
-  updateTimerDisplay();
-};
+// To-Do List
+function addTodo() {
+  const todoInput = document.getElementById("todoInput").value;
+  if (todoInput) {
+    const todoList = document.getElementById("todoList");
+    const li = document.createElement("li");
+    li.classList.add("flex", "justify-between", "items-center", "space-x-2", "p-2", "bg-gray-700", "rounded");
+    li.innerHTML = `
+      <span>${todoInput}</span>
+      <div class="flex space-x-2">
+        <button onclick="markAsDone(this)" class="bg-green-500 px-2 py-1 rounded text-xs">Done</button>
+        <button onclick="markAsPriority(this)" class="bg-yellow-500 px-2 py-1 rounded text-xs">Priority</button>
+      </div>
+    `;
+    todoList.appendChild(li);
+    document.getElementById("todoInput").value = ''; // Clear input field
+  }
+}
 
+function markAsDone(button) {
+  const li = button.closest("li");
+  li.classList.add("line-through", "text-gray-400");
+  button.disabled = true; // Disable "Done" button
+}
+
+function markAsPriority(button) {
+  const li = button.closest("li");
+  const todoList = document.getElementById("todoList");
+  todoList.prepend(li); // Move the task to the top of the list
+  button.disabled = true; // Disable "Priority" button
+}
+
+// Initialize Timer Display
 updateTimerDisplay();
