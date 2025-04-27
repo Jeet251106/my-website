@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Pomodoro Timer</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Ensure Tailwind CSS is loaded properly -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import {
@@ -79,9 +81,15 @@
       }
     });
   </script>
+  <style>
+    /* Ensure buttons don't change color on click */
+    button:active {
+      background-color: inherit !important;
+    }
+  </style>
 </head>
 
-<body class="relative text-white min-h-screen bg-cover bg-center bg-no-repeat text-sm" style="background-image: url('https://i.pinimg.com/originals/d8/55/ad/d855ad574a63b786b26c8229365c506e.gif');">
+<body class="relative text-white min-h-screen text-sm" style="background-color: #A7C7E7;">
   <div class="absolute inset-0 bg-black bg-opacity-60 z-0"></div>
 
   <div class="relative z-10 flex flex-col items-center justify-center space-y-4 p-3">
@@ -107,17 +115,18 @@
       <!-- Timer -->
       <div class="text-center space-y-3">
         <div id="timer" class="text-5xl font-mono">25:00</div>
+
         <div class="space-x-1.5">
-          <button onclick="setTime(25)" class="bg-blue-600 px-2.5 py-1 rounded text-sm">pomodoro timer</button>
-          <button onclick="setTime(5)" class="bg-green-600 px-2.5 py-1 rounded text-sm">Short Break</button>
-          <button onclick="setTime(15)" class="bg-yellow-600 px-2.5 py-1 rounded text-sm">Long Break</button>
+          <button id="pomodoroButton" class="bg-[#4A90E2] text-white px-2.5 py-1 rounded text-sm">Pomodoro Timer</button>
+          <button id="shortBreakButton" class="bg-[#34D399] text-white px-2.5 py-1 rounded text-sm">Short Break</button>
+          <button id="longBreakButton" class="bg-[#FBBF24] text-black px-2.5 py-1 rounded text-sm">Long Break</button>
         </div>
+
         <div class="space-x-2">
-          <button id="start" class="bg-teal-500 px-3 py-1.5 rounded text-sm">Start</button>
-          <button id="reset" class="bg-gray-500 px-3 py-1.5 rounded text-sm">Reset</button>
+          <button id="start" class="bg-teal-600 text-white px-3 py-1.5 rounded text-sm">Start</button>
+          <button id="reset" class="bg-gray-600 text-white px-3 py-1.5 rounded text-sm">Reset</button>
         </div>
       </div>
-
 
       <!-- Challenge -->
       <div class="w-full max-w-sm">
@@ -135,13 +144,14 @@
         <h2 class="text-lg font-semibold mb-1">📝 To-Do List</h2>
         <div class="flex gap-2">
           <input id="todoInput" class="flex-1 p-1.5 rounded text-black text-sm" placeholder="Add a task">
+          <input id="pomodoroInput" class="w-1/3 p-1.5 rounded text-black text-sm" type="number" placeholder="estimate hrs">
           <button onclick="addTodo()" class="bg-indigo-500 px-3 py-1.5 rounded text-sm">Add</button>
         </div>
         <ul id="todoList" class="mt-3 space-y-2 text-sm"></ul>
       </div>
 
       <!-- Music -->
-      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4Zjli1P13J5mmSCD5iKAXK?utm_source=generator" width="340" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/4Zjli1P13J5mmSCD5iKAXK?utm_source=generator" width="380" height="160" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
     </div>
     
     <!-- Scripts -->
@@ -149,8 +159,7 @@
     <script src="todo.js"></script>
     <script src="challenge.js"></script>
     <script src="login.js"></script>
-    
-
   </div>
 </body>
+
 </html>
