@@ -2,7 +2,7 @@ let timer;
 let secondsLeft = 25 * 60; // 25 minutes in seconds
 let isChallengeActive = false;
 let pomodorosCompleted = 0;
-let challengeGoal = 0; // This will hold the number of Pomodoros required for the challenge
+let challengeGoal = 0;
 let isTimerRunning = false;
 
 // Create an audio element for the alarm sound
@@ -41,7 +41,7 @@ document.getElementById("start").addEventListener("click", () => {
           pomodorosCompleted++;
           if (pomodorosCompleted >= challengeGoal) {
             alert("🎯 Challenge Completed!");
-            giveUpChallenge(); // End challenge if goal is reached
+            giveUpChallenge();
           }
         }
       }
@@ -100,22 +100,75 @@ function addTodo() {
       </div>
     `;
     todoList.appendChild(li);
-    document.getElementById("todoInput").value = ''; // Clear input field
+    document.getElementById("todoInput").value = '';
   }
 }
 
+// Adding pastel colors
+const pastelColors = {
+  pomodoro: "#A7C7E7", // Pastel blue
+  shortBreak: "#A8E6CF", // Pastel green
+  longBreak: "#D9B3FF", // Pastel yellow
+  start: "#A0D8D3", // Pastel teal
+};
+
+// Adding darker shades for buttons
+const buttonColors = {
+  pomodoro: "#8FB1C7", // Darker blue for button
+  shortBreak: "#80D1A2", // Darker green for button
+  longBreak: "#CAA6ED", // Darker yellow for button
+  start: "#7FB7B0", // Darker teal for button
+};
+
+// Function to change the background color of the page and button colors
+function updateBackgroundColor(color, buttonColor) {
+  document.body.style.backgroundColor = color;
+  document.body.style.backgroundImage = "none";
+
+  document.getElementById("pomodoroButton").style.backgroundColor = buttonColor.pomodoro;
+  document.getElementById("shortBreakButton").style.backgroundColor = buttonColor.shortBreak;
+  document.getElementById("longBreakButton").style.backgroundColor = buttonColor.longBreak;
+  document.getElementById("start").style.backgroundColor = buttonColor.start;
+}
+
+// Event listeners for mode buttons
+document.getElementById("pomodoroButton").addEventListener("click", () => {
+  updateBackgroundColor(pastelColors.pomodoro, buttonColors);
+  setTime(25);
+});
+
+document.getElementById("shortBreakButton").addEventListener("click", () => {
+  updateBackgroundColor(pastelColors.shortBreak, buttonColors);
+  setTime(5);
+});
+
+document.getElementById("longBreakButton").addEventListener("click", () => {
+  updateBackgroundColor(pastelColors.longBreak, buttonColors);
+  setTime(15);
+});
+
+document.getElementById("start").addEventListener("click", () => {
+  updateBackgroundColor(pastelColors.start, buttonColors);
+  // Timer starts separately above
+});
+
+// Mark To-Do as Done
 function markAsDone(button) {
   const li = button.closest("li");
   li.classList.add("line-through", "text-gray-400");
-  button.disabled = true; // Disable "Done" button
+  button.disabled = true;
 }
 
+// Mark To-Do as Priority
 function markAsPriority(button) {
   const li = button.closest("li");
   const todoList = document.getElementById("todoList");
-  todoList.prepend(li); // Move the task to the top of the list
-  button.disabled = true; // Disable "Priority" button
+  todoList.prepend(li);
+  button.disabled = true;
 }
 
-// Initialize Timer Display
-updateTimerDisplay();
+// ====== Important: Run these on page load ======
+updateTimerDisplay(); // Show 25:00
+
+// FIX: Set initial button colors so they are not white
+updateBackgroundColor(pastelColors.pomodoro, buttonColors);
