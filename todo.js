@@ -66,7 +66,6 @@ function addTodo() {
 
     priorityBtn.onclick = () => {
       todoList.insertBefore(li, todoList.firstChild); // Move to top
-      li.classList.add("bg-yellow-100"); // Optional: Highlight priority task
       menu.classList.add("hidden");
     };
 
