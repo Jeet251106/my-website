@@ -1,3 +1,5 @@
+import { showSuggestions, hideSuggestions } from './suggested.js';
+
 let timer;
 let secondsLeft = 25 * 60; // 25 minutes in seconds
 let isChallengeActive = false;
@@ -6,7 +8,7 @@ let challengeGoal = 0;
 let isTimerRunning = false;
 
 // Create an audio element for the alarm sound
-const alarmSound = new Audio('alarm.mp3'); 
+const alarmSound = new Audio('alarm.mp3');
 
 // Timer Setup
 function setTime(minutes) {
@@ -54,7 +56,7 @@ document.getElementById("start").addEventListener("click", () => {
 // Reset Timer
 document.getElementById("reset").addEventListener("click", () => {
   clearInterval(timer);
-  secondsLeft = 25 * 60; // Reset to 25 minutes
+  secondsLeft = 25 * 60;
   updateTimerDisplay();
   isTimerRunning = false;
   document.getElementById("start").textContent = "Start";
@@ -75,7 +77,6 @@ function startChallenge() {
   }
 }
 
-// Give up Challenge
 function giveUpChallenge() {
   isChallengeActive = false;
   challengeGoal = 0;
@@ -104,23 +105,22 @@ function addTodo() {
   }
 }
 
-// Adding pastel colors
+// Pastel Colors
 const pastelColors = {
-  pomodoro: "#A7C7E7", // Pastel blue
-  shortBreak: "#A8E6CF", // Pastel green
-  longBreak: "#D9B3FF", // Pastel yellow
-  start: "#A0D8D3", // Pastel teal
+  pomodoro: "#A7C7E7",
+  shortBreak: "#A8E6CF",
+  longBreak: "#D9B3FF",
+  start: "#A0D8D3",
 };
 
-// Adding darker shades for buttons
 const buttonColors = {
-  pomodoro: "#8FB1C7", // Darker blue for button
-  shortBreak: "#80D1A2", // Darker green for button
-  longBreak: "#CAA6ED", // Darker yellow for button
-  start: "#7FB7B0", // Darker teal for button
+  pomodoro: "#8FB1C7",
+  shortBreak: "#80D1A2",
+  longBreak: "#CAA6ED",
+  start: "#7FB7B0",
 };
 
-// Function to change the background color of the page and button colors
+// Update Background Color
 function updateBackgroundColor(color, buttonColor) {
   document.body.style.backgroundColor = color;
   document.body.style.backgroundImage = "none";
@@ -131,26 +131,29 @@ function updateBackgroundColor(color, buttonColor) {
   document.getElementById("start").style.backgroundColor = buttonColor.start;
 }
 
-// Event listeners for mode buttons
-document.getElementById("pomodoroButton").addEventListener("click", () => {
+// Mode Handlers
+function switchToPomodoro() {
   updateBackgroundColor(pastelColors.pomodoro, buttonColors);
   setTime(25);
-});
+  hideSuggestions();
+}
 
-document.getElementById("shortBreakButton").addEventListener("click", () => {
+function switchToShortBreak() {
   updateBackgroundColor(pastelColors.shortBreak, buttonColors);
   setTime(5);
-});
+  hideSuggestions();
+}
 
-document.getElementById("longBreakButton").addEventListener("click", () => {
+function switchToLongBreak() {
   updateBackgroundColor(pastelColors.longBreak, buttonColors);
   setTime(15);
-});
+  showSuggestions();
+}
 
-document.getElementById("start").addEventListener("click", () => {
-  updateBackgroundColor(pastelColors.start, buttonColors);
-  // Timer starts separately above
-});
+// Event Listeners
+document.getElementById("pomodoroButton").addEventListener("click", switchToPomodoro);
+document.getElementById("shortBreakButton").addEventListener("click", switchToShortBreak);
+document.getElementById("longBreakButton").addEventListener("click", switchToLongBreak);
 
 // Mark To-Do as Done
 function markAsDone(button) {
@@ -167,8 +170,7 @@ function markAsPriority(button) {
   button.disabled = true;
 }
 
-// ====== Important: Run these on page load ======
-updateTimerDisplay(); // Show 25:00
-
-// FIX: Set initial button colors so they are not white
+// ====== Initialize Page ======
+updateTimerDisplay();
 updateBackgroundColor(pastelColors.pomodoro, buttonColors);
+hideSuggestions();
