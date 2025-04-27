@@ -82,6 +82,40 @@
     });
   </script>
   <style>
+    
+      /* Smooth background transition */
+  body {
+    transition: background-color 0.6s ease, background-image 0.6s ease;
+  }
+  
+  /* Also smooth the suggestion box */
+  #suggestionsBox {
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  #suggestionsBox.hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+  }
+
+  #suggestionsBox:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Button hover effects */
+  button:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease;
+  }
+
+  /* Input focus glow */
+  input:focus {
+    outline: none;
+    box-shadow: 0 0 5px 2px rgba(72, 187, 120, 0.5);
+    border-color: #48bb78;
+  }
     /* Ensure buttons don't change color on click */
     button:active {
       background-color: inherit !important;
@@ -110,6 +144,11 @@
 
     <!-- Main App Section -->
     <div id="appSection" class="hidden flex flex-col items-center space-y-6 w-full max-w-xl">
+      <!-- Suggestions Box -->
+<div id="suggestionsBox" class="hidden fixed top-24 right-8 w-64 p-4 bg-white bg-opacity-90 rounded-lg shadow-lg text-black space-y-2 z-20">
+  <h3 class="text-lg font-bold mb-2">🧘‍♂️ Suggested Activities</h3>
+  <ul id="suggestionsList" class="list-disc list-inside space-y-1 text-sm"></ul>
+</div>
       <h1 class="text-2xl font-bold">Pomodoro Timer</h1>
 
       <!-- Timer -->
@@ -127,6 +166,14 @@
           <button id="reset" class="bg-gray-600 text-white px-3 py-1.5 rounded text-sm">Reset</button>
         </div>
       </div>
+
+      <!-- Suggested Activities (hidden by default) -->
+<div id="suggestedActivities" class="hidden mt-4 w-full max-w-sm text-left">
+  <h2 class="text-lg font-semibold mb-2">🌴 Suggested Activities for Long Break</h2>
+  <ul class="list-disc pl-5 space-y-1 text-sm text-white" id="suggestedList">
+    <!-- activities will come from JS -->
+  </ul>
+</div>
 
       <!-- Challenge -->
       <div class="w-full max-w-sm">
@@ -155,7 +202,8 @@
     </div>
     
     <!-- Scripts -->
-    <script src="pomodoro.js"></script>
+    <script src="suggested.js" type="module"></script>
+    <script src="pomodoro.js" type="module"></script>
     <script src="todo.js"></script>
     <script src="challenge.js"></script>
     <script src="login.js"></script>
